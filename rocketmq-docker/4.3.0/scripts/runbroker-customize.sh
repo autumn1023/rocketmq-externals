@@ -33,30 +33,17 @@ export JAVA="$JAVA_HOME/bin/java"
 export BASE_DIR=$(dirname $0)/..
 export CLASSPATH=.:${BASE_DIR}/conf:${CLASSPATH}
 
+
 #===========================================================================================
 # JVM Configuration
 #===========================================================================================
 # Get the max heap used by a jvm, which used all the ram available to the container.
-if [ -z "$MAX_POSSIBLE_HEAP" ]
-then
-	MAX_POSSIBLE_RAM_STR=$(java -XX:+UnlockExperimentalVMOptions -XX:MaxRAMFraction=1 -XshowSettings:vm -version |awk '/Max\. Heap Size \(Estimated\): [0-9KMG]+/{ print $5}')
-	MAX_POSSIBLE_RAM=$MAX_POSSIBLE_RAM_STR
-	CAL_UNIT=${MAX_POSSIBLE_RAM_STR: -1}
-	if [ "$CAL_UNIT" == "G" -o "$CAL_UNIT" == "g" ]; then
-		MAX_POSSIBLE_RAM=$(echo ${MAX_POSSIBLE_RAM_STR:0:${#MAX_POSSIBLE_RAM_STR}-1} `expr 1 \* 1024 \* 1024 \* 1024` | awk '{printf "%d",$1*$2}')
-	elif [ "$CAL_UNIT" == "M" -o "$CAL_UNIT" == "m" ]; then
-		MAX_POSSIBLE_RAM=$(echo ${MAX_POSSIBLE_RAM_STR:0:${#MAX_POSSIBLE_RAM_STR}-1} `expr 1 \* 1024 \* 1024` | awk '{printf "%d",$1*$2}')
-	elif [ "$CAL_UNIT" == "K" -o "$CAL_UNIT" == "k" ]; then
-		MAX_POSSIBLE_RAM=$(echo ${MAX_POSSIBLE_RAM_STR:0:${#MAX_POSSIBLE_RAM_STR}-1} `expr 1 \* 1024` | awk '{printf "%d",$1*$2}')
-	fi
-	MAX_POSSIBLE_HEAP=$[MAX_POSSIBLE_RAM/4]
-fi
 
 # Dynamically calculate parameters, for reference.
-Xms=$MAX_POSSIBLE_HEAP
-Xmx=$MAX_POSSIBLE_HEAP
-Xmn=$[MAX_POSSIBLE_HEAP/2]
-MaxDirectMemorySize=$MAX_POSSIBLE_HEAP
+Xms=2g
+Xmx=2g
+Xmn=1g
+MaxDirectMemorySize=4g
 # Set for `JAVA_OPT`.
 JAVA_OPT="${JAVA_OPT} -server -Xms${Xms} -Xmx${Xmx} -Xmn${Xmn}"
 JAVA_OPT="${JAVA_OPT} -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:SurvivorRatio=8"
