@@ -37,8 +37,8 @@ WORKDIR  ${ROCKETMQ_HOME}
 RUN curl https://dist.apache.org/repos/dist/release/rocketmq/${ROCKETMQ_VERSION}/rocketmq-all-${ROCKETMQ_VERSION}-bin-release.zip -o rocketmq.zip \
  && unzip rocketmq.zip \
  && mv rocketmq-all*/* . \
- && rmdir rocketmq-all*  \
- && rm rocketmq.zip
+ && rm rocketmq-all* -rf \
+ && rm rocketmq.zip -rf
 
 # add scripts
 COPY scripts/ ${ROCKETMQ_HOME}/bin/
