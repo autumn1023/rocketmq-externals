@@ -20,8 +20,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
     apk update && \
     apk add  bash tzdata ca-certificates s6 sudo curl wget openssh && \
     echo "Asia/Shanghai" > /etc/timezone && \
-    cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    rm -rf /var/cache/apk/*   /tmp/*     && \
+    cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime 
+  
+       
 ARG version
 
 # Rocketmq version
@@ -56,7 +57,7 @@ EXPOSE 10909 10911
 # add customized scripts for broker
 RUN mv ${ROCKETMQ_HOME}/bin/runbroker-customize.sh ${ROCKETMQ_HOME}/bin/runbroker.sh \
  && chmod +x ${ROCKETMQ_HOME}/bin/runbroker.sh \
- && chmod +x ${ROCKETMQ_HOME}/bin/mqbroker
+ && chmod +x ${ROCKETMQ_HOME}/bin/mqbroker  &&     rm -rf /var/cache/apk/*   /tmp/*
 
 # export Java options
 RUN export JAVA_OPT=" -Duser.home=/opt"
