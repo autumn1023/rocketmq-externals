@@ -18,7 +18,7 @@
 FROM openjdk:8-jre-alpine
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
     apk update && \
-    apk add  bash tzdata ca-certificates s6 sudo curl wget openssh && \
+    apk add  zip bash tzdata ca-certificates sudo curl wget openssh && \
     echo "Asia/Shanghai" > /etc/timezone && \
     cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime 
   
