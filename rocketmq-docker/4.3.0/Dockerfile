@@ -23,10 +23,10 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
     cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime 
   
        
-ARG version 4.3.0
+ENV VERSION 4.3.0
 
 # Rocketmq version
-ENV ROCKETMQ_VERSION ${version}
+ENV ROCKETMQ_VERSION ${VERSION}
 
 # Rocketmq home
 ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
