@@ -15,11 +15,13 @@
 # limitations under the License.
 #
 
-FROM centos:7
-
-RUN yum install -y java-1.8.0-openjdk-headless unzip gettext nmap-ncat openssl\
- && yum clean all -y
-
+FROM openjdk:8-jre-alpine
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+    apk update && \
+    apk add  bash tzdata ca-certificates s6 sudo curl wget openssh && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    rm -rf /var/cache/apk/*   /tmp/*     && \
 ARG version
 
 # Rocketmq version
