@@ -58,7 +58,7 @@ EXPOSE 10909 10911
 RUN mv ${ROCKETMQ_HOME}/bin/runbroker-customize.sh ${ROCKETMQ_HOME}/bin/runbroker.sh \
  && chmod +x ${ROCKETMQ_HOME}/bin/runbroker.sh \
  && chmod +x ${ROCKETMQ_HOME}/bin/mqbroker  &&     rm -rf /var/cache/apk/*   /tmp/*
-ADD config/broker.conf /opt/rocketmq-4.3.0/conf
+COPY config/broker.conf /opt/rocketmq-4.3.0/conf/
 # export Java options
 RUN export JAVA_OPT=" -Duser.home=/opt"
 
